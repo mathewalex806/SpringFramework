@@ -14,23 +14,18 @@ import java.io.IOException;
 @Component
 public class RequestBodyCheckingFilter extends OncePerRequestFilter {
     @Override
-    protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        ContentCachingRequestWrapper requestWrapper = new ContentCachingRequestWrapper(request);
-        ContentCachingResponseWrapper responseWrapper = new ContentCachingResponseWrapper(response);
-
-        filterChain.doFilter(requestWrapper, responseWrapper); // Let Spring read the body naturally
-
-        // 🔥 Now it's safe to read the cached content
-        String body = new String(requestWrapper.getContentAsByteArray(), requestWrapper.getCharacterEncoding());
         System.out.println("Filter activated");
-        System.out.println("Request Body: " + body);
+        CachedBodyHttpServletRequest cachedRequest = new CachedBodyHttpServletRequest(request);
 
-        // Required: copy response back to client
-        responseWrapper.copyBodyToResponse();
+        String body = cachedRequest.getCachedBodyAsString(cachedRequest.getCharacterEncoding());
+        System.out.println("Request Body (before controller): " + body);
+
+        filterChain.doFilter(cachedRequest, response); // Pass wrapped request forward
     }
 }
+
+
 
 
