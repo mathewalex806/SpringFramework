@@ -1,7 +1,7 @@
 package com.alex.example;
 
 
-import com.alex.example.Order;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,12 +14,6 @@ public class FirstController
         this.repository = repository;
     }
 
-    @PostMapping("hello")
-    public String sayHello(@RequestBody OrderRecord orderObj)
-
-    {
-        return "Hello from FirstController. \nOrderId: "+orderObj.orderId()+"\nOrderName: "+orderObj.orderName()+"\nOrderQuantity: "+orderObj.orderQuantity();
-    }
 
     @GetMapping("goodbye")
     @ResponseStatus(HttpStatus.ACCEPTED)
@@ -85,6 +79,28 @@ public class FirstController
     {
         return repository.saveAll(students);
     }
+
+
+    @Autowired
+    ApplicantService applicantService;
+    @GetMapping("/Applicant")
+    public List<Applicant> getallApplicant()
+    {
+        return applicantService.getAllApplicants();
+    }
+
+    @PostMapping("/Applicant")
+    public Applicant addApplicant(@RequestBody Applicant applicant)
+    {
+        return applicantService.addApplicant(applicant);
+    }
+
+    @GetMapping("/applicant-partialname")
+    public List<Applicant> getByPartialName(@RequestParam("partialName") String partialName)
+    {
+        return applicantService.findByPartialName(partialName);
+    }
 }
+
 
 

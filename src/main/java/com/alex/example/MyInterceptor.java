@@ -22,8 +22,6 @@ public class MyInterceptor implements HandlerInterceptor
     @Override
     public void postHandle(@NonNull HttpServletRequest request,@NonNull HttpServletResponse response,@NonNull Object handler, ModelAndView modelAndView) throws Exception
     {
-        System.out.println(response.getStatus());
-
     }
 
     @Override
@@ -43,11 +41,6 @@ public class MyInterceptor implements HandlerInterceptor
             }
         }
         System.out.println(response.getStatus()+request.getRequestURI()+response.getStatus()+ request.getAttribute("startTime")+request.getAttribute("endTime")+request.getRemoteAddr());
-
-
-
-
-
     }
 
 }
