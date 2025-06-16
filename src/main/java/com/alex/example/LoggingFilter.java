@@ -1,5 +1,7 @@
 package com.alex.example;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.ContentCachingResponseWrapper;
@@ -44,7 +46,10 @@ public class LoggingFilter extends OncePerRequestFilter {
 
         System.out.println(method + " " + endpoint+ " " + requestBody + " " + responseBody + " " + statusCode + " " + createdAt);
 
-        ApiLog apiLog = new ApiLog(method, endpoint, statusCode, requestBody, responseBody,  null, createdAt);
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode requestbodyjson = mapper.readTree(requestBody);
+        JsonNode responsebodyjson = mapper.readTree(responseBody);
+        ApiLog apiLog = new ApiLog(method, endpoint, statusCode, requestbodyjson, responsebodyjson,  null, createdAt);
         apiLogService.saveLog(apiLog);
 
 

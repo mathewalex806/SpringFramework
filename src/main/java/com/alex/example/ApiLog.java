@@ -1,6 +1,11 @@
 package com.alex.example;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import io.hypersistence.utils.hibernate.type.json.JsonBinaryType;
 import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.Type;
+import org.hibernate.type.SqlTypes;
 
 import java.time.Instant;
 
@@ -16,14 +21,23 @@ public class ApiLog
     @Column(nullable = false)
     private String endpoint;
     private int statusCode;
-    @Column(columnDefinition = "text")
-    private String requestBody;
-    @Column(columnDefinition = "text")
-    private String responseBody;
+
+
+    @Type(JsonBinaryType.class)
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "request_body", columnDefinition = "jsonb")
+    private JsonNode requestBody;
+
+    @Type(JsonBinaryType.class)
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "response_body", columnDefinition = "jsonb")
+    private JsonNode responseBody;
+
+
     private String headers;
     private Instant createdAt;
 
-    public ApiLog(String method, String endpoint, int statusCode, String requestBody, String responseBody, String headers, Instant createdAt) {
+    public ApiLog(String method, String endpoint, int statusCode, JsonNode requestBody, JsonNode responseBody, String headers, Instant createdAt) {
         this.method = method;
         this.endpoint = endpoint;
         this.statusCode = statusCode;
@@ -70,19 +84,19 @@ public class ApiLog
         this.statusCode = statusCode;
     }
 
-    public String getRequestBody() {
+    public JsonNode getRequestBody() {
         return requestBody;
     }
 
-    public void setRequestBody(String requestBody) {
+    public void setRequestBody(JsonNode requestBody) {
         this.requestBody = requestBody;
     }
 
-    public String getResponseBody() {
+    public JsonNode getResponseBody() {
         return responseBody;
     }
 
-    public void setResponseBody(String responseBody) {
+    public void setResponseBody(JsonNode responseBody) {
         this.responseBody = responseBody;
     }
 
