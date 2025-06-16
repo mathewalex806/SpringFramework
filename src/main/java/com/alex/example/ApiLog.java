@@ -39,10 +39,16 @@ public class ApiLog
     @Column(name = "parameters", columnDefinition = "jsonb")
     private JsonNode parameters;
 
-    private String headers;
+
+    @Type(JsonBinaryType.class)
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "headers", columnDefinition = "jsonb")
+    private JsonNode headers;
+
+
     private Instant createdAt;
 
-    public ApiLog(String method, String endpoint, int statusCode, JsonNode requestBody, JsonNode responseBody, String headers, Instant createdAt, JsonNode parameters) {
+    public ApiLog(String method, String endpoint, int statusCode, JsonNode requestBody, JsonNode responseBody, JsonNode headers, Instant createdAt, JsonNode parameters) {
         this.method = method;
         this.endpoint = endpoint;
         this.statusCode = statusCode;
@@ -106,11 +112,11 @@ public class ApiLog
         this.responseBody = responseBody;
     }
 
-    public String getHeaders() {
+    public JsonNode getHeaders() {
         return headers;
     }
 
-    public void setHeaders(String headers) {
+    public void setHeaders(JsonNode headers) {
         this.headers = headers;
     }
 

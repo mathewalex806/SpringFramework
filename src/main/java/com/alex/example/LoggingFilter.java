@@ -11,6 +11,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.Instant;
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Map;
 
 @Component
@@ -51,10 +53,21 @@ public class LoggingFilter extends OncePerRequestFilter {
         Map<String, String[]> parameters = request.getParameterMap();
         JsonNode parameter = mapper.valueToTree(parameters);
 
+        Map<String, String> headers = new HashMap<>();
+
+        Enumeration<String> headerNames = request.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String headerName = headerNames.nextElement();
+            String headerValue = request.getHeader(headerName);
+            headers.put(headerName, headerValue);
+        }
+
+        JsonNode headerNode = mapper.valueToTree(headers);
+
 
         JsonNode requestbodyjson = mapper.readTree(requestBody);
         JsonNode responsebodyjson = mapper.readTree(responseBody);
-        ApiLog apiLog = new ApiLog(method, endpoint, statusCode, requestbodyjson, responsebodyjson,  null, createdAt, parameter);
+        ApiLog apiLog = new ApiLog(method, endpoint, statusCode, requestbodyjson, responsebodyjson,  headerNode, createdAt, parameter);
         apiLogService.saveLog(apiLog);
         System.out.println("Created DB entry");
 
