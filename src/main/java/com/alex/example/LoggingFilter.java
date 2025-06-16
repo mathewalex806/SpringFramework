@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.Instant;
+import java.util.Map;
 
 @Component
 public class LoggingFilter extends OncePerRequestFilter {
@@ -43,15 +44,19 @@ public class LoggingFilter extends OncePerRequestFilter {
         String responseBody = new String(respArr, response.getCharacterEncoding());
         int statusCode = response.getStatus();
         Instant createdAt = Instant.now();
-
-        System.out.println(method + " " + endpoint+ " " + requestBody + " " + responseBody + " " + statusCode + " " + createdAt);
-
         ObjectMapper mapper = new ObjectMapper();
+
+
+
+        Map<String, String[]> parameters = request.getParameterMap();
+        JsonNode parameter = mapper.valueToTree(parameters);
+
+
         JsonNode requestbodyjson = mapper.readTree(requestBody);
         JsonNode responsebodyjson = mapper.readTree(responseBody);
-        ApiLog apiLog = new ApiLog(method, endpoint, statusCode, requestbodyjson, responsebodyjson,  null, createdAt);
+        ApiLog apiLog = new ApiLog(method, endpoint, statusCode, requestbodyjson, responsebodyjson,  null, createdAt, parameter);
         apiLogService.saveLog(apiLog);
-
+        System.out.println("Created DB entry");
 
         response.copyBodyToResponse();
     }
