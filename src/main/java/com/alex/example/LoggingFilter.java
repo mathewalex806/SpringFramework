@@ -30,9 +30,8 @@ public class LoggingFilter extends OncePerRequestFilter {
             HttpServletResponse rawResponse,
             FilterChain filterChain
     ) throws ServletException, IOException {
-        // Wrap request to cache body
+
         CachedBodyHttpServletRequest request = new CachedBodyHttpServletRequest(rawRequest);
-        // Wrap response to capture body
         ContentCachingResponseWrapper response = new ContentCachingResponseWrapper(rawResponse);
 
         // Proceed with processing (controllers, other filters)
@@ -49,12 +48,13 @@ public class LoggingFilter extends OncePerRequestFilter {
         ObjectMapper mapper = new ObjectMapper();
 
 
-
+        //Params
         Map<String, String[]> parameters = request.getParameterMap();
         JsonNode parameter = mapper.valueToTree(parameters);
 
         Map<String, String> headers = new HashMap<>();
 
+        //Headers
         Enumeration<String> headerNames = request.getHeaderNames();
         while (headerNames.hasMoreElements()) {
             String headerName = headerNames.nextElement();
