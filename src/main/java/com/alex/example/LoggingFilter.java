@@ -1,5 +1,6 @@
 package com.alex.example;
 
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
@@ -19,17 +20,17 @@ import java.util.Map;
 public class LoggingFilter extends OncePerRequestFilter {
 
     private final ApiLogService apiLogService;
+    private final ElasticLogService elasticLogService;
 
-    public LoggingFilter(ApiLogService apiLogService) {
+    public LoggingFilter(ApiLogService apiLogService, ElasticLogService elasticLogService)
+    {
         this.apiLogService = apiLogService;
+        this.elasticLogService = elasticLogService;
     }
 
     @Override
-    protected void doFilterInternal(
-            HttpServletRequest rawRequest,
-            HttpServletResponse rawResponse,
-            FilterChain filterChain
-    ) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest rawRequest, HttpServletResponse rawResponse, FilterChain filterChain) throws ServletException, IOException
+    {
 
         CachedBodyHttpServletRequest request = new CachedBodyHttpServletRequest(rawRequest);
         ContentCachingResponseWrapper response = new ContentCachingResponseWrapper(rawResponse);
@@ -70,6 +71,8 @@ public class LoggingFilter extends OncePerRequestFilter {
         ApiLog apiLog = new ApiLog(method, endpoint, statusCode, requestbodyjson, responsebodyjson,  headerNode, createdAt, parameter);
         apiLogService.saveLog(apiLog);
         System.out.println("Created DB entry");
+
+        elasticLogService.saveToElastic(apiLog);
 
         response.copyBodyToResponse();
     }
