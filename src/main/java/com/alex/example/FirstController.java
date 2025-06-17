@@ -40,6 +40,25 @@ public class FirstController
         return apiLogService.getAllLog();
     }
 
+    @GetMapping("/method")
+    public List<ApiLog> getbymethod(@RequestParam("method") String method)
+    {
+        return apiLogService.getbymethod(method);
+    }
+
+    @GetMapping("/status")
+    public List<ApiLog> getbystatuscode(@RequestParam("code") Integer code)
+    {
+        return apiLogService.getbystatus(code);
+    }
+
+    @GetMapping("/endpoint")
+    public List<ApiLog> getbyendpoint(@RequestParam("url") String url)
+    {
+        return apiLogService.getbyendpoint(url);
+    }
+
+
 }
 
 

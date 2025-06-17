@@ -2,5 +2,11 @@ package com.alex.example;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ApiLogRepository extends JpaRepository<ApiLog, Long> {
+import java.util.List;
+
+public interface ApiLogRepository extends JpaRepository<ApiLog, Long>
+{
+    List<ApiLog> findByMethod(String method);
+    List<ApiLog> findByEndpoint(String endpoint);
+    List<ApiLog> findByStatusCode(Integer code);
 }

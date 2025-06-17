@@ -16,8 +16,24 @@ public class ApiLogService {
         return apiLogRepository.findAll();
     }
 
-    public ApiLog saveLog(ApiLog apiLog)
+    public void saveLog(ApiLog apiLog)
     {
-        return apiLogRepository.save(apiLog);
+         apiLogRepository.save(apiLog);
     }
+
+    public List<ApiLog> getbymethod(String method)
+    {
+        return apiLogRepository.findByMethod(method);
+    }
+
+    public List<ApiLog> getbystatus(Integer code)
+    {
+        return apiLogRepository.findByStatusCode(code);
+    }
+
+    public List<ApiLog> getbyendpoint(String endpoint)
+    {
+        return apiLogRepository.findByEndpoint(endpoint);
+    }
+
 }
