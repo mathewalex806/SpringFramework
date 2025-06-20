@@ -1,4 +1,4 @@
-package com.alex.example;
+package com.alex.example.Applicantpackage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

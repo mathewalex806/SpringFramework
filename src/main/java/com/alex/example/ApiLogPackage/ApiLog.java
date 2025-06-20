@@ -1,4 +1,4 @@
-package com.alex.example;
+package com.alex.example.ApiLogPackage;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import io.hypersistence.utils.hibernate.type.json.JsonBinaryType;

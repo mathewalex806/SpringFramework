@@ -1,4 +1,4 @@
-package com.alex.example;
+package com.alex.example.ApiLogPackage;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

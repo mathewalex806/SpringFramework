@@ -1,4 +1,4 @@
-package com.alex.example;
+package com.alex.example.Elastic;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.transport.rest_client.RestClientTransport;
@@ -11,12 +11,10 @@ import org.elasticsearch.client.RestClientBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.Base64;
-
 @Configuration
 public class ElasticsearchConfig {
 
-    private static final String API_KEY = "YXlzdmZaY0JTZXJlVmh1UWhlMlI6Zm9ES3M5SHBGdFVwREQ3a05VZWwxUQ==";
+    private static final String API_KEY = "VlhHYWhwY0J0MmZNWV9MNUxIRlM6RGlrTmtuVXBmY2NDLWR1ajU4eDd0UQ==";
 
     @Bean
     public ElasticsearchClient elasticsearchClient() {

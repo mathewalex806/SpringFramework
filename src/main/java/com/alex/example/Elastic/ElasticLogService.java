@@ -1,7 +1,8 @@
-package com.alex.example;
+package com.alex.example.Elastic;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch.core.IndexRequest;
+import com.alex.example.ApiLogPackage.ApiLog;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -30,5 +31,7 @@ public class ElasticLogService
             e.printStackTrace();
         }
     }
+
+
 
 }

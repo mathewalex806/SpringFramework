@@ -1,6 +1,8 @@
 package com.alex.example;
 
-import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import com.alex.example.ApiLogPackage.ApiLog;
+import com.alex.example.ApiLogPackage.ApiLogService;
+import com.alex.example.Elastic.ElasticLogService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;

@@ -1,4 +1,4 @@
-package com.alex.example;
+package com.alex.example.Applicantpackage;
 
 
 import jakarta.persistence.Entity;
