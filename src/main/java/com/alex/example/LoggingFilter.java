@@ -74,7 +74,7 @@ public class LoggingFilter extends OncePerRequestFilter {
         apiLogService.saveLog(apiLog);
         System.out.println("Created DB entry");
 
-        elasticLogService.saveToElastic(apiLog);
+//        elasticLogService.saveToElastic(apiLog);
 
         response.copyBodyToResponse();
     }

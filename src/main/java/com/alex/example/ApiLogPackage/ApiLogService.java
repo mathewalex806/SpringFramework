@@ -36,4 +36,6 @@ public class ApiLogService {
         return apiLogRepository.findByEndpoint(endpoint);
     }
 
+    public List<ApiLog> getbymethodandendpoint(String method, String endpoint){ return apiLogRepository.findByMethodAndEndpoint(method, endpoint);}
+
 }

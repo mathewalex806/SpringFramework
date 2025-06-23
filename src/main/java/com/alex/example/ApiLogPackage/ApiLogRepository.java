@@ -9,4 +9,6 @@ public interface ApiLogRepository extends JpaRepository<ApiLog, Long>
     List<ApiLog> findByMethod(String method);
     List<ApiLog> findByEndpoint(String endpoint);
     List<ApiLog> findByStatusCode(Integer code);
+
+    List<ApiLog> findByMethodAndEndpoint(String method, String endpoint);
 }
