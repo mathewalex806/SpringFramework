@@ -7,6 +7,8 @@ import com.alex.example.ApiLogPackage.ApiLogService;
 import com.alex.example.Applicantpackage.Applicant;
 import com.alex.example.Applicantpackage.ApplicantService;
 import com.fasterxml.jackson.databind.JsonNode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,10 +17,14 @@ import java.util.List;
 @RestController
 public class FirstController
 {
+    private static final Logger log = LoggerFactory.getLogger(FirstController.class);
     @Autowired
     ApiLogService apiLogService;
     @Autowired
     ApiLogRepository apilogRepository;
+
+    @Autowired
+    EmbeddingModel embeddingModel;
 
     @Autowired
     ApplicantService applicantService;
@@ -82,6 +88,14 @@ public class FirstController
             apilogRepository.save(log);
         }
     }
+
+    @GetMapping("/embedding")
+    public void getembedding()
+    {
+        System.out.print("Executed function");
+        float[] vector  = embeddingModel.createEmbedding();
+    }
+
 
 
 }

@@ -72,6 +72,19 @@
 			<artifactId>jackson-datatype-jsr310</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>dev.langchain4j</groupId>
+			<artifactId>langchain4j</artifactId>
+			<version>0.26.0</version>
+		</dependency>
+
+		<!-- Vertex AI integration -->
+		<dependency>
+			<groupId>dev.langchain4j</groupId>
+			<artifactId>langchain4j-vertex-ai</artifactId>
+			<version>0.26.0</version>
+		</dependency>
+
 
 
 
