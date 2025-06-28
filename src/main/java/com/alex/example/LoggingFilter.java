@@ -23,11 +23,13 @@ public class LoggingFilter extends OncePerRequestFilter {
 
     private final ApiLogService apiLogService;
     private final ElasticLogService elasticLogService;
+    private final EmbeddingModel embeddingModel;
 
-    public LoggingFilter(ApiLogService apiLogService, ElasticLogService elasticLogService)
+    public LoggingFilter(ApiLogService apiLogService, ElasticLogService elasticLogService, EmbeddingModel embeddingModel)
     {
         this.apiLogService = apiLogService;
         this.elasticLogService = elasticLogService;
+        this.embeddingModel = embeddingModel;
     }
 
     @Override
@@ -73,7 +75,8 @@ public class LoggingFilter extends OncePerRequestFilter {
         ApiLog apiLog = new ApiLog(method, endpoint, statusCode, requestbodyjson, responsebodyjson,  headerNode, createdAt, parameter);
         apiLogService.saveLog(apiLog);
         System.out.println("Created DB entry");
-
+        float[] vector  = embeddingModel.createEmbedding(apiLog);
+        System.out.println(vector);
 //        elasticLogService.saveToElastic(apiLog);
 
         response.copyBodyToResponse();

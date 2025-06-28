@@ -92,8 +92,8 @@ public class FirstController
     @GetMapping("/embedding")
     public void getembedding()
     {
-        System.out.print("Executed function");
-        float[] vector  = embeddingModel.createEmbedding();
+        System.out.println("Executed function");
+//        float[] vector  = embeddingModel.createEmbedding();
     }
 
 

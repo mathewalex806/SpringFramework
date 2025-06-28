@@ -1,5 +1,6 @@
 package com.alex.example;
 
+import com.alex.example.ApiLogPackage.ApiLog;
 import dev.langchain4j.data.embedding.Embedding;
 import dev.langchain4j.model.output.Response;
 import dev.langchain4j.model.vertexai.VertexAiEmbeddingModel;
@@ -10,27 +11,34 @@ public class EmbeddingModel
 {
     private static final String PROJECT_ID = "request-matching";
     private static final String MODEL_NAME = "text-embedding-004";
+    private final VertexAiEmbeddingModel embeddingModel;
 
-    public float[] createEmbedding()
+    public EmbeddingModel()
     {
-        VertexAiEmbeddingModel embeddingModel = VertexAiEmbeddingModel.builder()
+         this.embeddingModel = VertexAiEmbeddingModel.builder()
                 .project(PROJECT_ID)
-                .location("us-central1")
-                .endpoint("us-central1-aiplatform.googleapis.com:443")
+                .location("asia-south1")
+                .endpoint("asia-south1-aiplatform.googleapis.com:443")
                 .publisher("google")
                 .modelName(MODEL_NAME)
                 .build();
+    }
 
-        Response<Embedding> response = embeddingModel.embed("Hello, how are you?");
+    public float[] createEmbedding(ApiLog apiLog)
+    {
+
+        String text_body  = apiLog.getMethod()+ apiLog.getEndpoint()+apiLog.getRequestBody();
+        Response<Embedding> response = embeddingModel.embed(text_body);
 
         Embedding embedding = response.content();
 
-        int dimension = embedding.dimension(); // 768
-        float[] vector = embedding.vector(); // [-0.06050122, -0.046411075, ...
+        int dimension = embedding.dimension();
+        float[] vector = embedding.vector();
 
         System.out.println(dimension);
         System.out.println(embedding.vectorAsList());
         return vector;
+
 
     }
 
