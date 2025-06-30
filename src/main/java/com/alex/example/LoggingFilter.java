@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -72,12 +73,24 @@ public class LoggingFilter extends OncePerRequestFilter {
 
         JsonNode requestbodyjson = mapper.readTree(requestBody);
         JsonNode responsebodyjson = mapper.readTree(responseBody);
-        ApiLog apiLog = new ApiLog(method, endpoint, statusCode, requestbodyjson, responsebodyjson,  headerNode, createdAt, parameter);
+
+
+        ApiLog apiLog = new ApiLog(method, endpoint, statusCode, requestbodyjson, responsebodyjson,  headerNode, createdAt, parameter,null );
         apiLogService.saveLog(apiLog);
         System.out.println("Created DB entry");
-        float[] vector  = embeddingModel.createEmbedding(apiLog);
-        System.out.println(vector);
-//        elasticLogService.saveToElastic(apiLog);
+        try
+        {
+            float[] vector  = embeddingModel.createEmbedding(apiLog);
+            System.out.println("vector obtained in filter"+ Arrays.toString(vector));
+            apiLog.setEmbedding(vector);
+            apiLogService.saveLog(apiLog);
+            elasticLogService.saveToElastic(apiLog);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
 
         response.copyBodyToResponse();
     }

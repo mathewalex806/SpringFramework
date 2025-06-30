@@ -35,8 +35,8 @@ public class EmbeddingModel
         int dimension = embedding.dimension();
         float[] vector = embedding.vector();
 
-        System.out.println(dimension);
-        System.out.println(embedding.vectorAsList());
+//        System.out.println(dimension);
+//        System.out.println(embedding.vectorAsList());
         return vector;
 
 

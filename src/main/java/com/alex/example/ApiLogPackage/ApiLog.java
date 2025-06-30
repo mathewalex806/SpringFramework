@@ -46,9 +46,14 @@ public class ApiLog
     private JsonNode headers;
 
 
+
+    @Column(name = "embedding")
+    private float[] embedding;
+
+
     private Instant createdAt;
 
-    public ApiLog(String method, String endpoint, int statusCode, JsonNode requestBody, JsonNode responseBody, JsonNode headers, Instant createdAt, JsonNode parameters) {
+    public ApiLog(String method, String endpoint, int statusCode, JsonNode requestBody, JsonNode responseBody, JsonNode headers, Instant createdAt, JsonNode parameters, float[] embedding) {
         this.method = method;
         this.endpoint = endpoint;
         this.statusCode = statusCode;
@@ -57,6 +62,7 @@ public class ApiLog
         this.headers = headers;
         this.createdAt = createdAt;
         this.parameters = parameters;
+        this.embedding = embedding;
     }
 
     public ApiLog() {
@@ -134,5 +140,13 @@ public class ApiLog
 
     public void setParameters(JsonNode parameters) {
         this.parameters = parameters;
+    }
+
+    public float[] getEmbedding() {
+        return embedding;
+    }
+
+    public void setEmbedding(float[] embedding) {
+        this.embedding = embedding;
     }
 }
